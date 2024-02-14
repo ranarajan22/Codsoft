@@ -1,0 +1,138 @@
+<!DOCTYPE html>  
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Analog Calculator</title>
+  <link rel="stylesheet" type="text/css" href="analog.css">
+  <style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f3f3f3;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+    }
+    
+    .analog-calculator {
+        background-color: #e0e0e0;
+        border-radius: 10px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+        padding: 20px;
+        width: 240px;
+    }
+    
+    .display {
+        background-color: #fff;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        margin-bottom: 10px;
+        padding: 10px;
+        font-size: 20px;
+        text-align: right;
+    }
+    
+    .buttons {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 10px;
+    }
+    
+    button {
+        padding: 10px;
+        font-size: 18px;
+        background-color: #f1f1f1;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+    
+    button:hover {
+        background-color: #ddd;
+    }
+    
+  </style>
+</head>
+<body>
+  <div class="analog-calculator">
+    <div class="display">
+      <span id="result">0</span>
+    </div>
+    <div class="buttons">
+      <button onclick="clearDisplay()">C</button>
+      <button onclick="appendToDisplay('7')">7</button>
+      <button onclick="appendToDisplay('8')">8</button>
+      <button onclick="appendToDisplay('9')">9</button>
+      <button onclick="appendToDisplay('/')">/</button>
+      <button onclick="appendToDisplay('4')">4</button>
+      <button onclick="appendToDisplay('5')">5</button>
+      <button onclick="appendToDisplay('6')">6</button>
+      <button onclick="appendToDisplay('*')">*</button>
+      <button onclick="appendToDisplay('1')">1</button>
+      <button onclick="appendToDisplay('2')">2</button>
+      <button onclick="appendToDisplay('3')">3</button>
+      <button onclick="appendToDisplay('-')">-</button>
+      <button onclick="appendToDisplay('0')">0</button>
+      <button onclick="appendToDisplay('.')">.</button>
+      <button onclick="calculate()">=</button>
+      <button onclick="appendToDisplay('+')">+</button>
+    </div>
+  </div>
+<script>
+    
+        let display = document.getElementById("result");
+    
+        function appendToDisplay(value) {
+            if (display.textContent === '0' && value !== '.') {
+                display.textContent = value;
+            } else {
+                display.textContent += value;
+            }
+        }
+    
+        function clearDisplay() {
+            display.textContent = '0';
+        }
+    
+        function calculate() {
+            try {
+                display.textContent = eval(display.textContent);
+            } catch (error) {
+                display.textContent = "Error";
+            }
+        }
+    
+        // Function to handle keyboard input
+        document.addEventListener('keydown', function(event) {
+            const key = event.key;
+            const allowedKeys = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '+', '-', '*', '/', '.', 'Enter', 'Backspace', 'Delete', 'Escape'];
+    
+            // Check if the pressed key is allowed
+            if (allowedKeys.includes(key)) {
+                event.preventDefault(); // Prevent default browser behavior for certain keys
+    
+                // Handle key presses
+                switch (key) {
+                    case 'Enter':
+                        calculate();
+                        break;
+                    case 'Backspace':
+                    case 'Delete':
+                        clearDisplay();
+                        break;
+                    case 'Escape':
+                        clearDisplay();
+                        break;
+                    default:
+                        appendToDisplay(key);
+                        break;
+                }
+            }
+        });
+    </script>
+    
+
+</body>
+</html>
